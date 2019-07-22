@@ -20,7 +20,14 @@ const box = {
 };
 
 function withBoxUnlocked(body) {
-  // Your code here.
+  try {
+    box.unlock();
+    body();
+  } catch (err) {
+    throw err;
+  } finally {
+    box.lock();
+  }
 }
 
 withBoxUnlocked(function() {
