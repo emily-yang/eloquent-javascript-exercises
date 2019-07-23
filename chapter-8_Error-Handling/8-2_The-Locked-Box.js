@@ -1,6 +1,6 @@
 /*
-Write a function called withBoxUnlocked that takes a function value as argument, unlocks the box, 
-runs the function, and then ensures that the box is locked again before returning, regardless of 
+Write a function called withBoxUnlocked that takes a function value as argument, unlocks the box,
+runs the function, and then ensures that the box is locked again before returning, regardless of
 whether the argument function returned normally or threw an exception.
 */
 
@@ -20,13 +20,12 @@ const box = {
 };
 
 function withBoxUnlocked(body) {
+  const relock = box.locked;
   try {
     box.unlock();
     body();
-  } catch (err) {
-    throw err;
   } finally {
-    box.lock();
+    if (relock) box.lock();
   }
 }
 
