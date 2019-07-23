@@ -1,5 +1,5 @@
 /*
-Say you have a function primitiveMultiply that in 20 percent of cases multiplies two numbers and in the other 80 percent of cases raises an exception of type MultiplicatorUnitFailure. 
+Say you have a function primitiveMultiply that in 20 percent of cases multiplies two numbers and in the other 80 percent of cases raises an exception of type MultiplicatorUnitFailure.
 Write a function that wraps this clunky function and just keeps trying until a call succeeds, after which it returns the result.
 
 Make sure you handle only the exceptions you are trying to handle.
@@ -18,11 +18,7 @@ function reliableMultiply(a, b) {
   try {
     return primitiveMultiply(a, b);
   } catch (err) {
-    if (err instanceof MultiplicatorUnitFailure) {
-      console.log('Failure');
-      // Can cause a stack overflow if failure occurs too much
-      return reliableMultiply(a, b);
-    }
+    if (err instanceof MultiplicatorUnitFailure) return reliableMultiply(a, b);
     throw err;
   }
 }
