@@ -1,22 +1,21 @@
 const { characterScript, countBy } = require('./chapter-snippets');
 
+/**
+ *  Computers the dominant writing direction in a string of text
+ * @param {String} text
+ * @returns {String} ltr, rtl, or ttb
+ */
 function dominantDirection(text) {
-  // Why not use the direction instead of the name of the script
-  const directions = countBy(text, char => {
-    const script = characterScript(char.codePointAt(0));
-    return script ? script.direction : 'none';
-  });
+  // each script object has a direction property!
 
-  // Checks if we have anything at all
-  const total = directions.reduce((n, { count }) => n + count, 0);
-  if (total === 0) return 'No scripts found';
+  // 1. split text string into array of characters
+  const directionCounts = countBy(text, ch => {
+    const script = characterScript(ch.codePointAt(0));
+    return script ? script.direction : null;
+  }).filter(dir => dir.name !== null);
 
-  // Uses a sorted reduce by comparing the largest on-going value
-  const leadDirection = directions.reduce((a, b) =>
-    a.count < b.count ? b : a
-  );
-
-  return leadDirection.name;
+  const highestCount = directionCounts.reduce((a, b) => (b.count > a.count ? b : a));
+  return highestCount.name;
 }
 
 console.log(dominantDirection('Hello!'));

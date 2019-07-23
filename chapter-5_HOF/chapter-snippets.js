@@ -1,14 +1,16 @@
 const SCRIPTS = require('./scripts');
 
+// executes an action n times
 exports.repeat = (n, action) => {
   for (let i = 0; i < n; i++) {
     action(i);
   }
 };
 
-exports.characterCount = script =>
-  script.ranges.reduce((count, [from, to]) => count + (to - from), 0);
+// reduces the ranges assigned to a script
+exports.characterCount = script => script.ranges.reduce((count, [from, to]) => count + (to - from), 0);
 
+// takes a character code and returns the script associated with it
 exports.characterScript = code => {
   for (const script of SCRIPTS) {
     if (script.ranges.some(([from, to]) => code >= from && code < to)) {
@@ -18,6 +20,7 @@ exports.characterScript = code => {
   return null;
 };
 
+// takes an array of elements and a groupname and returns an array of objects containing group and their counts
 exports.countBy = (items, groupName) => {
   const counts = [];
   for (const item of items) {
@@ -32,6 +35,7 @@ exports.countBy = (items, groupName) => {
   return counts;
 };
 
+// reads a body of text and returns a string stating what % of the text is what script
 exports.textScripts = text => {
   const scripts = this.countBy(text, char => {
     const script = this.characterScript(char.codePointAt(0));
@@ -41,7 +45,5 @@ exports.textScripts = text => {
   const total = scripts.reduce((n, { count }) => n + count, 0);
   if (total === 0) return 'No scripts found';
 
-  return scripts
-    .map(({ name, count }) => `${Math.round((count * 100) / total)}% ${name}`)
-    .join(', ');
+  return scripts.map(({ name, count }) => `${Math.round((count * 100) / total)}% ${name}`).join(', ');
 };

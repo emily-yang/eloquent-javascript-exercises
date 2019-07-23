@@ -1,10 +1,11 @@
 /*
-Implement every as a function that takes an array and a predicate function as parameters. 
+Implement every as a function that takes an array and a predicate function as parameters.
+
 
 Write two versions, one using a loop and one using the some method.
 */
 
-// Loops
+// using loop
 // function every(array, test) {
 //   for (const element of array) {
 //     if (!test(element)) return false;
@@ -12,10 +13,9 @@ Write two versions, one using a loop and one using the some method.
 //   return true;
 // }
 
-// Some
-// I got a hint on this one...
+// using some
 function every(array, test) {
-  return !array.some(element => !test(element));
+  return !array.some(item => !test(item));
 }
 
 console.log(every([1, 3, 5], n => n < 10));
